@@ -36,12 +36,12 @@ const CartProduct = ({ item }: cartProductsProps) => {
         <div className="flex flex-col gap-1">
           <p className="text-lg font-semibold text-amazon_blue">{item.title}</p>
           <p className="text-sm text-gray-600">{item.description}</p>
-          <p>
+          <p className="text-black">
             Unit Price<span>:${item.price}</span>
           </p>
         </div>
         <div className="flex items-center gap-6">
-          <div className="flex items-center justify-between mt-1 border border-gray-300 w-28 shadow-lg shadow-gray-300 px-4 py-1 rounded-full">
+          <div className="flex items-center justify-between mt-1 border bg-black border-gray-300 w-28 shadow-lg shadow-gray-300 px-4 py-1 rounded-full">
             <span
               onClick={() =>
                 dispatch(

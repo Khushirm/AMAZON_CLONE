@@ -52,7 +52,7 @@ const CartPayment = () => {
         <span className="bg-green-600 p-1 text-sm h-6 flex items-center justify-center mt-1 rounded-full w-6 text-white">
           <SiMediamarkt />
         </span>
-        <p className="text-sm">FREE SHIPPING ||CHECKOUT|| See Details...</p>
+        <p className="text-sm text-red-500">FREE SHIPPING ||CHECKOUT|| See Details...</p>
       </div>
       <p className="flex items-center justify-center px-2 font-semibold">
         Total Amount: <span className="font-bold text-xl">{totalAmount}</span>
