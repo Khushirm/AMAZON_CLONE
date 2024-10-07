@@ -1,6 +1,7 @@
 
+import { resetFavouriteData } from "@/store/nextSlice";
 import { useDispatch } from "react-redux";
-import { resetFavouriteData } from "../../Redux/slices/CartSlice";
+// import { resetFavouriteData } from "../../Redux/slices/CartSlice";
 
 const ResetFavouriteItems = () => {
   const dispatch = useDispatch();

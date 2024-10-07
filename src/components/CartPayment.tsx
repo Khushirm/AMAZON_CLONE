@@ -40,7 +40,7 @@ const CartPayment = () => {
    const checkoutSession = await response.json();
    console.log(checkoutSession);
    const result:any = await stripe?.redirectToCheckout({
-    sessionId: checkoutSession.sessionId,
+    sessionId: checkoutSession.sessionid,
    });
    if(result.error){
     alert(result?.error.message);

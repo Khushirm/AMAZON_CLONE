@@ -147,9 +147,7 @@ const CartProduct = ({ item }: cartProductsProps) => {
           <p className="text-sm text-gray-600">{item.description}</p>
           <p className="text-sm text-gray-600">
             Unit Price{" "}
-            <span className="font-semibold text-amazon_blue">
-              {item.price} 
-            </span>
+            <span className="font-semibold text-amazon_blue">{item.price}</span>
           </p>
           <div className="flex items-center gap-6">
             <div className="flex items-center mt-1 justify-between border border-gray-300 px-4 py-1 rounded-full w-28 shadow-lg shadow-gray-300">

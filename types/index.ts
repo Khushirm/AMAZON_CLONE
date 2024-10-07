@@ -14,24 +14,22 @@ export interface ProductProps{
     _id:number;
 }[];
 }
-export interface StoreProduct{
-    title:string;
-    brand: ReactNode;
-    _id:number;
-    description:string;
-    image:string;
-    quantity:number;
-    price:number;
-    productData:{
-    brand:string;
-    category:string;
-    isNew:boolean;
-    oldPrice:number;
-}[];
+export interface StoreProduct {
+    title: string;
+    brand: string;
+    _id: number;
+    description: string;
+    image: string;
+    quantity: number;
+    price: number;
+    category: string;     
+    isNew: boolean;       
+    oldPrice: number;     
 }
 export interface StateProps{
-    productData:ProductProps['productData'],
+    productData:ProductProps[],
     favouriteData:[],
     userInfo:null|string;
     next:any;
+    
 }
