@@ -163,6 +163,7 @@
 
 
 // import { addToCart, addTofavourite } from "@/store/nextSlice";
+"use client";
 import { addToCart, addToFavourite } from "@/store/nextSlice";
 import Image from "next/image";
 import { useRouter } from "next/router";
