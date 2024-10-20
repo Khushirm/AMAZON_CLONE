@@ -1,12 +1,28 @@
 // import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { StoreProduct } from "../../../../types";
+import { connectToDB } from "../../../../lib/mongoose";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
+import Payment from "../../../../lib/models/Payment";
+import mongoose from "mongoose";
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   try{
+    await connectToDB();
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
   const { items, email,customerName , customerAddress } = await req.json();
+  if(!customerAddress){
+    return NextResponse.json({error:"Address is required"},{status:400});
+  }
   const lineItems = items?.map((item: StoreProduct) => ({
     quantity: item.quantity,
     price_data: {
@@ -19,8 +35,12 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       },
     },
   }));
-  const isNonINRTransaction = lineItems?.[0]?.price_data?.currency !== 'inr';
-  const session = await stripe.checkout.sessions.create({
+  const totalAmount= items.reduce(
+    (total: number, item: { price: number; quantity: number; }) => total+ item.price*item.quantity,
+    0
+  );
+  // const isNonINRTransaction = lineItems?.[0]?.price_data?.currency !== 'inr';
+  const sessionStripe = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
     payment_method_types: ['card'],   
@@ -30,17 +50,24 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       email,
       images: JSON.stringify(items?.map((item: any) => item.image)),
     },
-    billing_address_collection:  isNonINRTransaction ? 'required' : 'auto',
-    shipping_address_collection:{
-      allowed_countries: isNonINRTransaction?['*']:['IN'],
-    },
-    customer_email:email,
+    customer_email: email,
     customer_name:customerName,
-    shipping_address:isNonINRTransaction?undefined:{
-      line1:customerAddress,
-    }
   });
-  return NextResponse.json({ sessionId: session.id });
+  const paymentData = new Payment({
+    userId: new mongoose.Types.ObjectId(userId),
+    email,
+    products:items.map((item: any)=>({
+      title:item.title,
+      quantity:item.quantity,
+      price:item.price,
+      image: item.image,
+    })),
+    totalAmount,
+    address: customerAddress,
+    status: "pending",
+  });
+  await paymentData.save();
+  return NextResponse.json({ sessionId: sessionStripe.id });
 }catch(error){
   console.error("Stripe Error",error);
   return NextResponse.json(

@@ -1,3 +1,4 @@
+import { DefaultSession } from "next-auth";
 import { ReactNode } from "react";
 
 export interface ProductProps{
@@ -32,4 +33,11 @@ export interface StateProps{
     userInfo:null|string;
     next:any;
     
+}
+declare module "next-auth" {
+    interface Session{
+        user: {
+            id: string;
+        } & DefaultSession["user"];
+    }
 }
