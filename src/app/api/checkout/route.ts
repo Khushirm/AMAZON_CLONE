@@ -15,15 +15,16 @@ export const POST = async (req: NextRequest) => {
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
+      console.error("No session found");
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     const userId = session.user.id;
-  const { items, email,customerName , customerAddress } = await req.json();
-  if(!customerAddress){
-    return NextResponse.json({error:"Address is required"},{status:400});
+  const { items, email, customerAddress } = await req.json();
+  if(!items || !email || !customerAddress){
+    return NextResponse.json({error:"Missing required fields"},{status:400});
   }
-  const lineItems = items?.map((item: StoreProduct) => ({
+  const lineItems = items.map((item: StoreProduct) => ({
     quantity: item.quantity,
     price_data: {
       currency: "inr",
@@ -48,18 +49,17 @@ export const POST = async (req: NextRequest) => {
     cancel_url: `${process.env.NEXTAUTH_URL}/checkout`,
     metadata: {
       email,
-      images: JSON.stringify(items?.map((item: any) => item.image)),
+      images: JSON.stringify(items.map((item: any) => item.image)),
     },
     customer_email: email,
-    customer_name:customerName,
   });
   const paymentData = new Payment({
     userId: new mongoose.Types.ObjectId(userId),
     email,
     products:items.map((item: any)=>({
-      title:item.title,
-      quantity:item.quantity,
-      price:item.price,
+      title: item.title,
+      quantity: item.quantity,
+      price: item.price,
       image: item.image,
     })),
     totalAmount,
