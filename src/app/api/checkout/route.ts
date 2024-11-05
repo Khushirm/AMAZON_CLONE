@@ -20,11 +20,13 @@ export const POST = async (req: NextRequest) => {
     }
 
     const userId = session.user.id;
-  const { items, email, customerAddress } = await req.json();
-  if(!items || !email || !customerAddress){
-    return NextResponse.json({error:"Missing required fields"},{status:400});
+    console.log("User ID:", userId);
+
+  const { items, email,customerName,customerAddress } = await req.json();
+  if(!customerName || !customerAddress){
+    return NextResponse.json({error:"Name and address are required"},{status:400});
   }
-  const lineItems = items.map((item: StoreProduct) => ({
+  const lineItems = items?.map((item: StoreProduct) => ({
     quantity: item.quantity,
     price_data: {
       currency: "inr",
@@ -40,21 +42,22 @@ export const POST = async (req: NextRequest) => {
     (total: number, item: { price: number; quantity: number; }) => total+ item.price*item.quantity,
     0
   );
-  // const isNonINRTransaction = lineItems?.[0]?.price_data?.currency !== 'inr';
   const sessionStripe = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: "payment",
     payment_method_types: ['card'],   
     success_url: `${process.env.NEXTAUTH_URL}/success`,
     cancel_url: `${process.env.NEXTAUTH_URL}/checkout`,
+    customer_email: email,
+    billing_address_collection:'required',
     metadata: {
-      email,
+      customer_name: customerName,
+      customer_address: JSON.stringify(customerAddress),
       images: JSON.stringify(items.map((item: any) => item.image)),
     },
-    customer_email: email,
   });
   const paymentData = new Payment({
-    userId: new mongoose.Types.ObjectId(userId),
+    userId,
     email,
     products:items.map((item: any)=>({
       title: item.title,
@@ -62,7 +65,7 @@ export const POST = async (req: NextRequest) => {
       price: item.price,
       image: item.image,
     })),
-    totalAmount,
+    totalAmount: lineItems.reduce((sum:number, item: { price_data: { unit_amount: number } }) => sum + item.price_data.unit_amount, 0),
     address: customerAddress,
     status: "pending",
   });

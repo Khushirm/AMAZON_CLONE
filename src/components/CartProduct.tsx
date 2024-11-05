@@ -168,11 +168,11 @@ const CartProduct = ({ item }: cartProductsProps) => {
                     })
                   )
                 }
-                className="w-6 h-6 flex items-center justify-center rounded-full text-base bg-transparent hover:bg-gray-300 cursor-pointer decoration-purple-300"
+                className="w-6 h-6 flex items-center justify-center rounded-full text-black text-base bg-transparent hover:bg-gray-300 cursor-pointer decoration-purple-300"
               >
                 <LuPlus />
               </span>
-              <span>{item.quantity}</span>
+              <span className="text-black">{item.quantity}</span>
               <span
                 onClick={() =>
                   dispatch(
@@ -190,7 +190,7 @@ const CartProduct = ({ item }: cartProductsProps) => {
                     })
                   )
                 }
-                className="w-6 h-6 flex items-center justify-center rounded-full text-base bg-transparent hover:bg-gray-300 cursor-pointer decoration-purple-300"
+                className="w-6 h-6 flex items-center justify-center rounded-full text-black text-base bg-transparent hover:bg-gray-300 cursor-pointer decoration-purple-300"
               >
                 <LuMinus />
               </span>
