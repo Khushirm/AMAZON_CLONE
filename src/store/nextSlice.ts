@@ -28,16 +28,25 @@ export const nextSlice = createSlice({
         state.productData.push(action.payload);
       }
     },
+    // addToFavourite: (state, action) => {
+    //   const existingProduct = state.favouriteData.find(
+    //     (item: StoreProduct) => item._id === action.payload._id
+    //   );
+    //   if (existingProduct) {
+    //     state.favouriteData.push(action.payload);
+    //   }
+    // },
+
     addToFavourite: (state, action) => {
       const existingProduct = state.favouriteData.find(
         (item: StoreProduct) => item._id === action.payload._id
       );
-      if (existingProduct) {
-        existingProduct.quantity += action.payload.quantity;
-      } else {
+      if (!existingProduct) {
         state.favouriteData.push(action.payload);
       }
     },
+    
+    
     increaseQuantity: (state, action) => {
       const existingProduct = state.productData.find(
         (item: StoreProduct) => item._id === action.payload._id

@@ -18,6 +18,8 @@ const Navbar = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("allProducts:", allProducts);
+    if (allProducts?.allProducts)
     setAllData(allProducts.allProducts);
   }, [allProducts]);
   useEffect(() => {
@@ -40,11 +42,15 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const filtered = allData.filter((item: StoreProduct) =>
-      item.title.toLocaleLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchQuery]);
+    if (allData.length > 0) {
+      const filtered = allData.filter((item: StoreProduct) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      console.log("Filtered Products:", filtered);
+      setFilteredProducts(filtered);
+    }
+  }, [searchQuery, allData]);
+  
 
   return (
     <div className="w-full h-20 bg-amazon_blue text-lightText sticky top-0 z-50">

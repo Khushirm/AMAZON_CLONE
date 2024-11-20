@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import ResetFavouriteItems from "@/components/ResetFavouriteItems";
 
 const FavouritePage = () => {
   const { favouriteData } = useSelector((state: StateProps) => state.next);
-
+  console.log("Favourite Data:", favouriteData);
   return (
     <div className="max-w-screen-xl mx-auto px-6 gap-10 py-4">
       {favouriteData.length > 0 ? (
@@ -19,8 +20,8 @@ const FavouritePage = () => {
             <p className="text-lg font-semibold text-amazon_blue">Action</p>
           </div>
           <div>
-            {favouriteData.map((item: StoreProduct) => (
-              <div key={item._id} className="mt-2">
+            {favouriteData.map((item: StoreProduct, index:number) => (
+              <div key={item._id || index} className="mt-2">
                 <FavouriteProduct item={item} />
               </div>
             ))}
@@ -28,7 +29,7 @@ const FavouritePage = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-white h-96  flex flex-col items-center justify-center py-5 rounded-lg shadow-lg">
+        <div className="bg-white h-96 text-black flex flex-col items-center justify-center py-5 rounded-lg shadow-lg">
           <h1>Nothing is available in the Favourite list</h1>
           <Link href="/">
             <button className="w-52 h-10 bg-amazon_blue text-white rounded-lg text-sm font-semibold hover:bg-amazon_yellow hover:text-black duration-300 mt-2">

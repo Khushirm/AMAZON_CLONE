@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { StoreProduct } from "../../../../types";
 import { connectToDB } from "../../../../lib/mongoose";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+// import { authOptions } from "../auth/[...nextauth]/route";
 import Payment from "../../../../lib/models/Payment";
 import mongoose from "mongoose";
+import { authOptions } from "../../../../lib/authOptions";
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -68,6 +69,7 @@ export const POST = async (req: NextRequest) => {
     totalAmount: lineItems.reduce((sum:number, item: { price_data: { unit_amount: number } }) => sum + item.price_data.unit_amount, 0),
     address: customerAddress,
     status: "pending",
+    orderId: sessionStripe.id
   });
   await paymentData.save();
   return NextResponse.json({ sessionId: sessionStripe.id });

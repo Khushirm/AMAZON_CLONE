@@ -34,10 +34,8 @@ export const CartSlice = createSlice({
       const existingProduct = state.favouriteData.find(
         (item: StoreProduct) => item._id === action.payload._id
       );
-      if (existingProduct) {
-        existingProduct.quantity += action.payload.quantity;
-      } else {
-        state.productData.push(action.payload);
+      if (!existingProduct) {
+        state.favouriteData.push(action.payload);
       }
     },
     increaseQuantity: (state, action) => {
@@ -70,7 +68,7 @@ export const CartSlice = createSlice({
       state.productData = [];
     },
     resetFavouriteData: (state) => {
-      state.productData = [];
+      state.favouriteData = [];
     },
     addUser: (state, action) => {
       state.userInfo = action.payload;
