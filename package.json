@@ -16,7 +16,7 @@
     "@types/next-auth": "^3.15.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
-    "mongodb": "^6.9.0",
+    "mongodb": "^5.9.2",
     "mongoose": "^8.7.2",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
