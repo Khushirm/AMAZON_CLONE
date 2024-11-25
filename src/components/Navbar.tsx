@@ -60,11 +60,11 @@ const Navbar = () => {
           className="px-2 border border-transparent hover:border-white cursor-pointer duration-300 flex items-center justify-center h-[70%]"
         >
           <Image
-            className="w-28 object-cover mt-1"
+            className="w-18 object-cover mt-1"
             src="/images/amazon-logo.png"
             alt="logoImg"
             height={150}
-            width={50}
+            width={60}
           />
         </Link>
         <div className="px-2 border border-transparent hover:border-white cursor-pointer duration-300 items-center justify-center h-[70%] hidden xl:inline-flex gap-1">
@@ -155,8 +155,7 @@ const Navbar = () => {
           href={"/favourite"}
           className="text-xs text-gray-100 flex flex-col justify-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative"
         >
-          <p>Marked</p>
-          <p className="text-white font-bold">& Favourite</p>
+          <p className="text-white font-bold">Favourite</p>
           {favouriteData.length > 0 && (
             <span className="absolute right-2 top-2 w-4 h-4 border-[1px] border-gray-400 flex items-center justify-center text-xs text-amazon_yellow">
               {favouriteData.length}
@@ -165,7 +164,7 @@ const Navbar = () => {
         </Link>
         <Link
           href={"/cart"}
-          className="flex items-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative"
+          className="flex items-center gap-1 px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%] relative"
         >
           <Image
             className="w-auto object-cover h-8"
@@ -174,7 +173,7 @@ const Navbar = () => {
             height={150}
             width={50}
           />
-          <p className="text-xs text-white font-bold mt-3">Cart</p>
+          <p className="text-xs text-white font-bold -ml-1 mt-3">Cart</p>
           <span className="absolute text-amazon_yellow text-sm top-2 left-[29px] font-semibold">
             {productData ? productData.length : 0}
           </span>
@@ -185,3 +184,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
