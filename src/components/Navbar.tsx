@@ -60,11 +60,11 @@ const Navbar = () => {
           className="px-2 border border-transparent hover:border-white cursor-pointer duration-300 flex items-center justify-center h-[70%]"
         >
           <Image
-            className="w-18 object-cover mt-1"
+            className="w-28 object-cover mt-1"
             src="/images/amazon-logo.png"
             alt="logoImg"
             height={150}
-            width={60}
+            width={50}
           />
         </Link>
         <div className="px-2 border border-transparent hover:border-white cursor-pointer duration-300 items-center justify-center h-[70%] hidden xl:inline-flex gap-1">
